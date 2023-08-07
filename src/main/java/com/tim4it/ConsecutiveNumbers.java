@@ -10,24 +10,19 @@ import java.util.stream.IntStream;
 
 public final class ConsecutiveNumbers {
 
+    private static final int NUMBER_LIMIT = 150001;
     private final String numberString;
     private final int numberStringLength;
     private final int numberStringHalfLength;
-    private final String preDefinedAscendingConsecutiveNumbers;
-    private final String preDefinedDescendingConsecutiveNumbers;
+    private final String preDefinedAscendingConsecutiveNumbers = IntStream.range(0, NUMBER_LIMIT)
+            .mapToObj(String::valueOf).collect(Collectors.joining());
+    private final String preDefinedDescendingConsecutiveNumbers = IntStream.range(0, NUMBER_LIMIT).boxed()
+            .sorted(Comparator.reverseOrder()).map(String::valueOf).collect(Collectors.joining());
 
     public ConsecutiveNumbers(String numberString) {
         this.numberString = numberString;
         this.numberStringLength = numberString.length();
         this.numberStringHalfLength = this.numberStringLength / 2;
-        this.preDefinedAscendingConsecutiveNumbers = IntStream.range(0, 150001)
-                .mapToObj(String::valueOf)
-                .collect(Collectors.joining());
-        this.preDefinedDescendingConsecutiveNumbers = IntStream.range(0, 150001)
-                .boxed()
-                .sorted(Comparator.reverseOrder())
-                .map(String::valueOf)
-                .collect(Collectors.joining());
     }
 
     /**
@@ -93,7 +88,8 @@ public final class ConsecutiveNumbers {
     }
 
     /**
-     * Working correct for consecutive numbers, but not correct for numbers that are not consecutive
+     * Working correct for defined numbers. Defined numbers are limited in set space. This is the simplest/fastest
+     * solution within defined set space - uses more memory.
      *
      * @return true if we have ascending, descending consecutive numbers
      */
